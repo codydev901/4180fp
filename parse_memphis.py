@@ -49,13 +49,32 @@ def get_memphis_crime_df(df: pd.DataFrame, keep_columns: List[str]):
     # GroupBy date & crime_type, count crime_type at each date
     date_crime_groups = sub_df.groupby(["date", "crime_type"])["crime_type"].count()
 
+    # Unique Crime Types
+    crime_types = sub_df["crime_type"].unique().tolist()
+
     # Construct parsed_df from the groups
-    parsed_df = [["date", "crime_type", "count"]]
-    for i, v in date_crime_groups.iteritems():
-        parsed_df.append([i[0], i[1], v])
+    parsed_df = [["date"] + crime_types]
+
+    # Probably a cleaner way to do this.. but basically does a transpose with just the crime_types and sets to
+    # 0 if none there etc.
+    date = None
+    date_dict = {crime_type: 0 for crime_type in crime_types}
+    for i, count in date_crime_groups.iteritems():
+        if not date:
+            date = i[0]
+        if date != i[0]:
+            crime_count_row = [date_dict[k] for k in crime_types]
+            parsed_df.append([date] + crime_count_row)
+            date = i[0]
+            date_dict = {crime_type: 0 for crime_type in crime_types}
+
+        date_dict[i[1]] = count
 
     # Convert to dataframe
     parsed_df = pd.DataFrame(data=parsed_df[1:], columns=parsed_df[0])
+
+    # Add in city
+    parsed_df["city"] = ["Memphis"]*len(parsed_df)
 
     print(parsed_df.head())
     print(parsed_df.tail())
