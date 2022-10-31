@@ -1,5 +1,6 @@
 from typing import List
 import pandas as pd
+import datetime
 
 """
 Doc Doc Doc
@@ -35,6 +36,12 @@ def get_memphis_crime_df(df: pd.DataFrame, keep_columns: List[str]):
 
     # Remove hour/minute/second from the date strings
     sub_df["date"] = sub_df["date"].apply(lambda x: x.split(" ")[0])
+
+    # Convert to datetime object
+    sub_df["date"] = sub_df["date"].apply(lambda x: datetime.datetime.strptime(x, "%m/%d/%Y"))
+
+    # Remove dates before 2018
+    sub_df = sub_df[sub_df["date"] >= datetime.datetime.strptime("01/01/2018", "%m/%d/%Y")]
 
     # print(sub_df.head())
     # print(sub_df.tail())

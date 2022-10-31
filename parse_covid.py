@@ -1,4 +1,5 @@
 import pandas as pd
+import datetime
 
 """
 From Proposal,
@@ -51,6 +52,9 @@ def get_daily_case_df(df: pd.DataFrame, combined_key: str):
 
     # Make dates their own column (they were transposed to row names)
     sub_df["date"] = date_headers
+
+    # Convert to datetime object
+    sub_df["date"] = sub_df["date"].apply(lambda x: datetime.datetime.strptime(x, "%m/%d/%y"))
 
     # Change row names back to indices
     sub_df.index = list(range(len(date_headers)))
