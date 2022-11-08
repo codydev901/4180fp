@@ -91,15 +91,18 @@ def main():
     print(df.head())
     print(df.columns.tolist())
     print(df.iloc[0, :].tolist())
+    print(df.iloc[1, :].tolist())
+
+    print(len(df["agency_crimetype_id"].unique()))
 
     # So looks like these are the things we will want to keep
-    columns_of_interest = ["offense_date", "agency_crimetype_id", "city", "state", "Category", "crime_id"]
+    # columns_of_interest = ["offense_date", "agency_crimetype_id", "city", "state", "Category", "crime_id"]
 
     # Parse
-    parsed_df = get_memphis_crime_df(df, columns_of_interest)
+    # parsed_df = get_memphis_crime_df(df, columns_of_interest)
 
     # Write
-    parsed_df.to_csv("parsed_data/memphis_crime.csv", index=False)
+    # parsed_df.to_csv("parsed_data/memphis_crime.csv", index=False)
 
 
 if __name__ == "__main__":
