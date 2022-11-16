@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import numpy as np
 from typing import List
+from plotly.subplots import make_subplots
+import plotly.graph_objs as go
 
 """
 Doc Doc Doc
@@ -75,10 +77,10 @@ def plot_compare_city_daily_cases_and_crime(case_df: pd.DataFrame, crime_df: pd.
     # Merge
     combined_df = crime_df.merge(sub_case_df, on="date")
 
-    # print(combined_df.head())
-    # print(combined_df.tail())
-    # print("OK")
-    # exit()
+    print(combined_df.head())
+    print(combined_df.tail())
+    print("OK")
+    exit()
 
     # Floor Date By Month/Sum Crime/Case Counts
     combined_df["date"] = pd.to_datetime(combined_df.date).dt.to_period('M').dt.to_timestamp()
@@ -90,6 +92,9 @@ def plot_compare_city_daily_cases_and_crime(case_df: pd.DataFrame, crime_df: pd.
     for k in ["daily_cases"] + city_crime_types:
         k_max = combined_df[k].max()
         combined_df[k] = combined_df[k].apply(lambda x: x/k_max)
+
+
+    # print(combined_df.head())
 
     fig = px.line(combined_df, x="date", y=["daily_cases"] + city_crime_types, markers=True,
                   title=f"Relative Frequency of Selected Crime Types and COVID Cases vs. Date: {city_name}")
@@ -114,27 +119,82 @@ def covid_case_plot(covid_case_df: pd.DataFrame):
     fig.show()
 
 
+def plot_combined_df_covid_cases(combined_df: pd.DataFrame):
+
+    crime_types = combined_df.columns.tolist()
+    crime_types.remove("city")
+    crime_types.remove("month_year")
+    crime_types.remove("monthly_cases")
+
+    fig = px.line(combined_df, x="month_year", y=["monthly_cases"], color="city", markers=True,
+                  title=f"Normalized Monthly COVID Cases vs. Date")
+    fig.show()
+
+
+def plot_combined_df_crimes(combined_df: pd.DataFrame, display_crimes: List[str]):
+
+    crime_types = combined_df.columns.tolist()
+    crime_types.remove("city")
+    crime_types.remove("month_year")
+    crime_types.remove("monthly_cases")
+    crime_types.remove("family offense")  # handle elsewhere, none of these
+    for c_t in list(crime_types):
+        if c_t not in display_crimes:
+            crime_types.remove(c_t)
+
+    t_df = [["city", "month_year", "monthly_cases", "crime_type", "crime_frequency"]]
+
+    for i, row in combined_df.iterrows():
+        for crime_type in crime_types:
+            t_df.append([row["city"], row["month_year"], row["monthly_cases"], crime_type, row[crime_type]])
+
+    t_df = pd.DataFrame(data=t_df[1:], columns=t_df[0])
+
+    fig = px.line(t_df, x="month_year", y="crime_frequency", color="city", facet_row="crime_type")
+    fig.show()
+
+
+
+    # fig = px.line(combined_df, x="month_year", y=["monthly_cases"], color="city", markers=True,
+    #               title=f"Normalized Monthly COVID Cases vs. Date")
+    # fig.show()
+
+
+
 def main():
 
     city_name = "Boston"
 
     # Load in dataframes
-    covid_case_df = pd.read_csv("parsed_data/daily_covid_cases.csv")
-    memphis_crime_df = pd.read_csv("parsed_data/memphis_crime.csv")
-    chicago_crime_df = pd.read_csv("parsed_data/chicago_crime.csv")
-    boston_crime_df = pd.read_csv("parsed_data/boston_crime.csv")
+    # covid_case_df = pd.read_csv("parsed_data/daily_covid_cases.csv")
+    # memphis_crime_df = pd.read_csv("parsed_data/memphis_crime.csv")
+    # chicago_crime_df = pd.read_csv("parsed_data/chicago_crime.csv")
+    # boston_crime_df = pd.read_csv("parsed_data/boston_crime.csv")
 
     # Filter case to Memphis only
-    covid_case_df = covid_case_df[covid_case_df["city"] == city_name]
+    # covid_case_df = covid_case_df[covid_case_df["city"] == city_name]
 
-    print(covid_case_df.head())
-    print(memphis_crime_df.head())
+    # print(covid_case_df.head())
+    # print(memphis_crime_df.head())
 
     # Plot/Compare Crime
-    print("Plot Compare Crime")
+    # print("Plot Compare Crime")
     # plot_compare_memphis_daily_cases_and_crime(covid_case_df, memphis_crime_df)
-    plot_compare_city_daily_cases_and_crime(covid_case_df, boston_crime_df, city_name, boston_crime_types)
+    # plot_compare_city_daily_cases_and_crime(covid_case_df, boston_crime_df, city_name, boston_crime_types)
     # covid_case_plot(covid_case_df)
+
+    combined_df = pd.read_csv("parsed_data/combined_cases_crime_equivalent_monthly_normalized.csv")
+    # print(combined_df.head())
+
+    plot_combined_df_covid_cases(combined_df=combined_df)
+
+    crime_types = combined_df.columns.tolist()
+    crime_types.remove("city")
+    crime_types.remove("month_year")
+    crime_types.remove("monthly_cases")
+    crime_types.remove("family offense")
+
+    plot_combined_df_crimes(combined_df, display_crimes=crime_types[12:16])
 
 
 if __name__ == "__main__":
