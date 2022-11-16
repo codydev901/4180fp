@@ -75,10 +75,10 @@ def plot_compare_city_daily_cases_and_crime(case_df: pd.DataFrame, crime_df: pd.
     # Merge
     combined_df = crime_df.merge(sub_case_df, on="date")
 
-    print(combined_df.head())
-    print(combined_df.tail())
-    print("OK")
-    exit()
+    # print(combined_df.head())
+    # print(combined_df.tail())
+    # print("OK")
+    # exit()
 
     # Floor Date By Month/Sum Crime/Case Counts
     combined_df["date"] = pd.to_datetime(combined_df.date).dt.to_period('M').dt.to_timestamp()

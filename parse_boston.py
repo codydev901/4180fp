@@ -51,8 +51,6 @@ def get_boston_crime_df(df: pd.DataFrame, keep_columns: List[str]):
     print(sub_df.head())
     print(sub_df.tail())
 
-    exit()
-
     # GroupBy date & crime_type, count crime_type at each date
     date_crime_groups = sub_df.groupby(["date", "crime_type"])["crime_type"].count()
 
@@ -83,6 +81,7 @@ def get_boston_crime_df(df: pd.DataFrame, keep_columns: List[str]):
     # Add in city
     parsed_df["city"] = ["Boston"] * len(parsed_df)
 
+    print("Parsed")
     print(parsed_df.head())
     print(parsed_df.tail())
 
@@ -165,10 +164,6 @@ def main():
 
     # Write
     parsed_df.to_csv("parsed_data/boston_crime.csv", index=False)
-
-
-
-
 
 
 if __name__ == "__main__":
