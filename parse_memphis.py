@@ -76,9 +76,6 @@ def get_memphis_crime_df(df: pd.DataFrame, keep_columns: List[str]):
     # Add in city
     parsed_df["city"] = ["Memphis"]*len(parsed_df)
 
-    print(parsed_df.head())
-    print(parsed_df.tail())
-
     return parsed_df
 
 
@@ -88,21 +85,21 @@ def main():
     df = pd.read_csv("raw_data/Memphis_Police_Department__Public_Safety_Incidents.csv")
 
     # Exploratory
-    print(df.head())
-    print(df.columns.tolist())
-    print(df.iloc[0, :].tolist())
-    print(df.iloc[1, :].tolist())
+    # print(df.head())
+    # print(df.columns.tolist())
+    # print(df.iloc[0, :].tolist())
+    # print(df.iloc[1, :].tolist())
 
-    print(len(df["agency_crimetype_id"].unique()))
+    # print(len(df["agency_crimetype_id"].unique()))
 
     # So looks like these are the things we will want to keep
-    # columns_of_interest = ["offense_date", "agency_crimetype_id", "city", "state", "Category", "crime_id"]
+    columns_of_interest = ["offense_date", "agency_crimetype_id", "city", "state", "Category", "crime_id"]
 
     # Parse
-    # parsed_df = get_memphis_crime_df(df, columns_of_interest)
+    parsed_df = get_memphis_crime_df(df, columns_of_interest)
 
     # Write
-    # parsed_df.to_csv("parsed_data/memphis_crime.csv", index=False)
+    parsed_df.to_csv("parsed_data/memphis_crime.csv", index=False)
 
 
 if __name__ == "__main__":

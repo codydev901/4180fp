@@ -68,9 +68,6 @@ def get_chicago_crime_df(df: pd.DataFrame, keep_columns: List[str]):
     # Add in city
     parsed_df["city"] = ["Chicago"] * len(parsed_df)
 
-    print(parsed_df.head())
-    print(parsed_df.tail())
-
     return parsed_df
 
 
@@ -80,9 +77,9 @@ def main():
     df = pd.read_csv("raw_data/chicago_Crimes_-_2001_to_Present.csv")
 
     # Exploratory
-    print(df.head())
-    print(df.columns.tolist())
-    print(df.iloc[0, :].tolist())
+    # print(df.head())
+    # print(df.columns.tolist())
+    # print(df.iloc[0, :].tolist())
 
     # So looks like these are the things we will want to keep
     columns_of_interest = ["ID", "Date", "Primary Type", "Description", "Domestic"]

@@ -93,7 +93,6 @@ def plot_compare_city_daily_cases_and_crime(case_df: pd.DataFrame, crime_df: pd.
         k_max = combined_df[k].max()
         combined_df[k] = combined_df[k].apply(lambda x: x/k_max)
 
-
     # print(combined_df.head())
 
     fig = px.line(combined_df, x="date", y=["daily_cases"] + city_crime_types, markers=True,
@@ -150,20 +149,55 @@ def plot_combined_df_crimes(combined_df: pd.DataFrame, display_crimes: List[str]
 
     t_df = pd.DataFrame(data=t_df[1:], columns=t_df[0])
 
-    fig = px.line(t_df, x="month_year", y="crime_frequency", color="city", facet_row="crime_type")
+    fig = px.line(t_df, x="month_year", y=["crime_frequency", "monthly_cases"], color="city", facet_row="crime_type")
+
+    did_set_legend = []
+    # Legend & Lines
+    for i, sub_trace in enumerate(fig.data):
+        if not ((i+1) % 2):  # Monthly Cases
+            sub_trace.line.dash = "dashdot"
+            sub_trace.legendgroup = f"{sub_trace.legendgroup} COVID Cases"
+            sub_trace.name = f"{sub_trace.name} COVID Cases"
+        else:
+            sub_trace.legendgroup = f"{sub_trace.legendgroup} Crime Frequency"
+            sub_trace.name = f"{sub_trace.name} Crime Frequency"
+
+        if sub_trace.name not in did_set_legend:
+            sub_trace.showlegend = True
+            did_set_legend.append(sub_trace.name)
+
+    # Sub-Titles
+    for anno in fig.layout.annotations:
+        anno.text = anno.text.split("=", 1)[-1].strip()
+
     fig.show()
 
 
+def plot_combined_df_crimes_two(combined_df: pd.DataFrame, display_crimes: List[str]):
 
-    # fig = px.line(combined_df, x="month_year", y=["monthly_cases"], color="city", markers=True,
-    #               title=f"Normalized Monthly COVID Cases vs. Date")
-    # fig.show()
+    crime_types = combined_df.columns.tolist()
+    crime_types.remove("city")
+    crime_types.remove("month_year")
+    crime_types.remove("monthly_cases")
+    crime_types.remove("family offense")  # handle elsewhere, none of these
+    for c_t in list(crime_types):
+        if c_t not in display_crimes:
+            crime_types.remove(c_t)
 
+    t_df = [["city", "month_year", "monthly_cases", "crime_type", "crime_frequency"]]
+
+    for i, row in combined_df.iterrows():
+        for crime_type in crime_types:
+            t_df.append([row["city"], row["month_year"], row["monthly_cases"], crime_type, row[crime_type]])
+
+    t_df = pd.DataFrame(data=t_df[1:], columns=t_df[0])
+
+    print(t_df.head())
 
 
 def main():
 
-    city_name = "Boston"
+    # city_name = "Boston"
 
     # Load in dataframes
     # covid_case_df = pd.read_csv("parsed_data/daily_covid_cases.csv")
@@ -184,9 +218,8 @@ def main():
     # covid_case_plot(covid_case_df)
 
     combined_df = pd.read_csv("parsed_data/combined_cases_crime_equivalent_monthly_normalized.csv")
-    # print(combined_df.head())
 
-    plot_combined_df_covid_cases(combined_df=combined_df)
+    # plot_combined_df_covid_cases(combined_df=combined_df)
 
     crime_types = combined_df.columns.tolist()
     crime_types.remove("city")
@@ -195,6 +228,8 @@ def main():
     crime_types.remove("family offense")
 
     plot_combined_df_crimes(combined_df, display_crimes=crime_types[12:16])
+
+    print("OK")
 
 
 if __name__ == "__main__":

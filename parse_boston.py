@@ -34,9 +34,9 @@ def get_boston_crime_df(df: pd.DataFrame, keep_columns: List[str]):
     # Remove columns we don't care about (keep crime_id for sanity checking later)
     sub_df = sub_df[["date", "crime_type", "crime_id"]]
 
-    print("PRE DATE")
-    print(sub_df.head())
-    print(sub_df.tail())
+    # print("PRE DATE")
+    # print(sub_df.head())
+    # print(sub_df.tail())
 
     # Remove hour/minute/second from the date strings
     sub_df["date"] = sub_df["date"].apply(lambda x: x.split(" ")[0])
@@ -47,9 +47,9 @@ def get_boston_crime_df(df: pd.DataFrame, keep_columns: List[str]):
     # Remove dates before 2018
     sub_df = sub_df[sub_df["date"] >= datetime.datetime.strptime("01/01/2018", "%m/%d/%Y")]
 
-    print("POST DATE")
-    print(sub_df.head())
-    print(sub_df.tail())
+    # print("POST DATE")
+    # print(sub_df.head())
+    # print(sub_df.tail())
 
     # GroupBy date & crime_type, count crime_type at each date
     date_crime_groups = sub_df.groupby(["date", "crime_type"])["crime_type"].count()
@@ -81,9 +81,9 @@ def get_boston_crime_df(df: pd.DataFrame, keep_columns: List[str]):
     # Add in city
     parsed_df["city"] = ["Boston"] * len(parsed_df)
 
-    print("Parsed")
-    print(parsed_df.head())
-    print(parsed_df.tail())
+    # print("Parsed")
+    # print(parsed_df.head())
+    # print(parsed_df.tail())
 
     return parsed_df
 
@@ -120,10 +120,8 @@ def find_missing_offense_codes(full_df: pd.DataFrame, offense_code_group_lu: dic
         if row["OFFENSE_CODE"] not in offense_code_group_lu:
             need_map.append(row["OFFENSE_CODE"])
 
-
     print(len(need_map))
     print(len(full_df))
-
 
     need_map = list(set(need_map))
 
@@ -131,7 +129,7 @@ def find_missing_offense_codes(full_df: pd.DataFrame, offense_code_group_lu: dic
 
     # So need to map these codes
     # 12190 Affected Records
-    # 389894 Total Reocrds
+    # 389894 Total Records
     # [3200, 641, 2950, 1800, 650, 400, 530, 531, 3350, 3100, 99999, 800, 2600, 300, 1200, 3126, 3000, 700, 3005, 2500,
     # 1100, 600, 1500, 990, 2400, 736, 3300, 100, 1000, 2671, 2672, 500, 1400, 121, 122]
 
@@ -144,17 +142,14 @@ def main():
     # Special Case to map offense codes to offense_code_group
     offense_code_group_lu = handle_boston_offense_code_groups()
 
-    # TODO: FINISH FIXING THESE, MISSING ~12k RECORDS
-    # find_missing_offense_codes(df, offense_code_group_lu)
-
     # Set Offense Code Group Properly
     df["OFFENSE_CODE_GROUP"] = df["OFFENSE_CODE"].apply(lambda x: offense_code_group_lu.get(x, np.nan))
 
     # Exploratory
-    print(df.head())
-    print(df.columns.tolist())
-    print(df.iloc[0, :].tolist())
-    print(df["OFFENSE_CODE_GROUP"].unique())
+    # print(df.head())
+    # print(df.columns.tolist())
+    # print(df.iloc[0, :].tolist())
+    # print(df["OFFENSE_CODE_GROUP"].unique())
 
     # So looks like these are the things we will want to keep
     columns_of_interest = ["INCIDENT_NUMBER", "OCCURRED_ON_DATE", "OFFENSE_CODE_GROUP", "OFFENSE_DESCRIPTION"]

@@ -66,9 +66,7 @@ def calc_yearly_diff(combined_df: pd.DataFrame, city: str, crime_type: str):
             "2021_to_2019": np.mean(crime_change_2021_to_2019)}
 
 
-def generate_yearly_crime_ratio_csv():
-
-    combined_df = pd.read_csv("parsed_data/combined_cases_crime_equivalent_monthly_normalized.csv")
+def generate_yearly_crime_ratio_per_city_csv(combined_df: pd.DataFrame):
 
     crime_types = combined_df.columns.tolist()
     crime_types.remove("city")
@@ -87,37 +85,42 @@ def generate_yearly_crime_ratio_csv():
             crime_change_data.append([res["city"], res["crime_type"], "2021_to_2019", res["2021_to_2019"]])
 
     crime_change_data = pd.DataFrame(data=crime_change_data[1:], columns=crime_change_data[0])
-    crime_change_data.to_csv("parsed_data/yearly_crime_ratio.csv", index=False)
+    crime_change_data.to_csv("parsed_data/yearly_crime_ratio_per_city.csv", index=False)
 
 
-def plot_crime_ratio(crime_change_df: pd.DataFrame, keep_crimes: List[str]):
+def plot_crime_ratio(crime_change_df: pd.DataFrame, keep_crimes: List[str], crime_group: int, do_show: bool = False):
 
     sub_crime_change_df = crime_change_df[crime_change_df["crime_type"].isin(keep_crimes)]
 
-    fig = px.scatter(sub_crime_change_df, x="time_period", y="crime_ratio", color="city", facet_col="crime_type")
+    fig = px.scatter(sub_crime_change_df, x="time_period", y="crime_ratio", color="city", facet_col="crime_type",
+                     title=f"Date vs. Post/Pre Pandemic Crime Ratio For Crime Group:{crime_group+1}")
+    fig.update_layout(yaxis_range=[0.0, 3.0])
+
     # Sub-Titles
     for anno in fig.layout.annotations:
         anno.text = anno.text.split("=", 1)[-1].strip()
-    fig.show()
+
+    if do_show:
+        fig.show()
+    fig.write_image(f"plots/yearly_crime_plot_{crime_group+1}.png")
 
 
 def main():
 
     combined_df = pd.read_csv("parsed_data/combined_cases_crime_equivalent_monthly_normalized.csv")
+    generate_yearly_crime_ratio_per_city_csv(combined_df=combined_df)
     crime_types = combined_df.columns.tolist()
     crime_types.remove("city")
     crime_types.remove("month_year")
     crime_types.remove("monthly_cases")
     crime_types.remove("family offense")
 
-    crime_change_df = pd.read_csv("parsed_data/yearly_crime_ratio.csv")
+    crime_change_df = pd.read_csv("parsed_data/yearly_crime_ratio_per_city.csv")
 
-    plot_crime_ratio(crime_change_df, keep_crimes=crime_types[:8])
+    plot_crime_ratio(crime_change_df, keep_crimes=crime_types[:16], crime_group=0, do_show=True)
 
 
 
 if __name__ == "__main__":
-
-    generate_yearly_crime_ratio_csv()
 
     main()

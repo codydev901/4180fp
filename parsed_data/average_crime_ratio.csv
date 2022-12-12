@@ -1,0 +1,17 @@
+crime_type,crime_ratio,desc
+arson,1.5291136902048157,more frequent
+assault,0.8027069763251254,about the same
+breaking & entering,0.6551432042148341,less frequent
+disorder,0.6654294587044757,less frequent
+drugs,0.7203352251948795,less frequent
+homicide,1.4509947707435102,more frequent
+kidnapping,0.8367723357528407,about the same
+liquor,0.6405351975241678,less frequent
+property crime,0.9489910770682509,about the same
+robbery,0.805075848423424,about the same
+theft,0.7563726477234205,less frequent
+theft from vehicle,1.0117649119913268,about the same
+theft of vehicle,1.097355552409364,about the same
+traffic,0.886539291296945,about the same
+vehicle recovery,0.9512083369945004,about the same
+weapons offense,1.621477543930779,more frequent

@@ -1,4 +1,4 @@
-city,native_cat,new_cat
+city,native_cat,equiv_cat
 Memphis,robbery,robbery
 Memphis,assault,assault
 Memphis,drugs,drugs
@@ -17,98 +17,98 @@ Memphis,family offense,family offense
 Memphis,kidnapping,kidnapping
 Memphis,homicide,homicide
 Chicago,theft,theft
-Chicago,deceptive practice,drop
-Chicago,other offense,drop
+Chicago,deceptive practice,none
+Chicago,other offense,none
 Chicago,motor vehicle theft,theft of vehicle
-Chicago,criminal damage,disorder
+Chicago,criminal damage,property crime
 Chicago,assault,assault
 Chicago,battery,assault
 Chicago,narcotics,drugs
 Chicago,weapons violation,weapons offense
-Chicago,offense involving children,drop
+Chicago,offense involving children,none
 Chicago,robbery,robbery
-Chicago,criminal trespass,disorder
+Chicago,criminal trespass,breaking & entering
 Chicago,liquor law violation,liquor
 Chicago,burglary,breaking & entering
 Chicago,interference with public officer,disorder
 Chicago,crim sexual assault,assault
 Chicago,arson,arson
 Chicago,criminal sexual assault,assault
-Chicago,prostitution,disorder
+Chicago,prostitution,none
 Chicago,public peace violation,disorder
-Chicago,sex offense,drop
-Chicago,stalking,drop
+Chicago,sex offense,none
+Chicago,stalking,none
 Chicago,kidnapping,kidnapping
-Chicago,intimidation,drop
+Chicago,intimidation,disorder
 Chicago,concealed carry license violation,weapons offense
-Chicago,gambling,drop
-Chicago,obscenity,drop
+Chicago,gambling,none
+Chicago,obscenity,disorder
 Chicago,homicide,homicide
-Chicago,non-criminal,drop
-Chicago,human trafficking,drop
+Chicago,non-criminal,none
+Chicago,human trafficking,kidnapping
 Chicago,public indecency,disorder
-Chicago,non-criminal (subject specified),drop
+Chicago,non-criminal (subject specified),none
 Chicago,other narcotic violation,drugs
-Chicago,ritualism,drop
-Boston,investigate person,drop
+Chicago,ritualism,none
+Boston,investigate person,none
 Boston,larceny,theft
 Boston,harassment,disorder
-Boston,property lost,drop
-Boston,fraud,drop
+Boston,property lost,none
+Boston,fraud,none
 Boston,auto theft,theft of vehicle
-Boston,counterfeiting,drop
-Boston,confidence games,drop
+Boston,counterfeiting,none
+Boston,confidence games,none
 Boston,commercial burglary,theft
 Boston,vandalism,property crime
-Boston,other,drop
-Boston,missing person reported,drop
-Boston,police service incidents,drop
+Boston,other,none
+Boston,missing person reported,none
+Boston,police service incidents,none
 Boston,license plate related incidents,traffic
-Boston,residential burglary,theft
+Boston,residential burglary,breaking & entering
 Boston,simple assault,assault
 Boston,property found,theft
 Boston,larceny from motor vehicle,theft from vehicle
-Boston,medical assistance,drop
-Boston,motor vehicle accident response,drop
+Boston,medical assistance,none
+Boston,motor vehicle accident response,none
 Boston,aggravated assault,assault
 Boston,landlord/tenant disputes,property crime
 Boston,investigate property,property crime
 Boston,auto theft recovery,vehicle recovery
-Boston,missing person located,drop
-Boston,embezzlement,drop
-Boston,violations,drop
-Boston,criminal harassment,drop
+Boston,missing person located,none
+Boston,embezzlement,none
+Boston,violations,none
+Boston,criminal harassment,disorder
 Boston,disorderly conduct,disorder
-Boston,warrant arrests,drop
+Boston,warrant arrests,none
 Boston,other burglary,breaking & entering
-Boston,restraining order violations,drop
+Boston,restraining order violations,none
 Boston,recovered stolen property,property crime
-Boston,service,drop
+Boston,service,none
 Boston,property related damage,property crime
 Boston,robbery,robbery
 Boston,towed,traffic
 Boston,evading fare,traffic
 Boston,license violation,traffic
-Boston,verbal disputes,drop
-Boston,fire related reports,drop
+Boston,verbal disputes,disorder
+Boston,fire related reports,none
 Boston,firearm violations,weapons offense
-Boston,search warrants,drop
+Boston,search warrants,none
 Boston,operating under the influence,traffic
 Boston,drug violation,drugs
-Boston,prisoner related incidents,drop
+Boston,prisoner related incidents,none
 Boston,firearm discovery,weapons offense
 Boston,ballistics,weapons offense
 Boston,liquor violation,liquor
 Boston,homicide,homicide
-Boston,offenses against child / family,drop
-Boston,harbor related incidents,drop
+Boston,offenses against child / family,none
+Boston,harbor related incidents,none
 Boston,arson,arson
 Boston,assembly or gathering violations,disorder
 Boston,bomb hoax,disorder
-Boston,aircraft,drop
-Boston,phone call complaints,drop
-Boston,prostitution,drop
-Boston,human trafficking,drop
+Boston,aircraft,none
+Boston,phone call complaints,none
+Boston,prostitution,none
+Boston,human trafficking,none
 Boston,home invasion,breaking & entering
-Boston,explosives,drop
-Boston,unnamed: 62,drop
+Boston,explosives,none
+Boston,unnamed: 62,none
